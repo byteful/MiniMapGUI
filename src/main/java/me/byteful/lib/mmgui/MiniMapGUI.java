@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/** The main class of MiniMapGUI. Extend this class to implement your own custom minimap GUIs. */
 public abstract class MiniMapGUI {
   private static final int VERSION;
 
@@ -59,20 +60,43 @@ public abstract class MiniMapGUI {
     this.player = player;
   }
 
+  /**
+   * Code that is run before the minimap is rendered for the first time. This is where stages and
+   * options should be set. Configuration values can also be set here or in the constructor.
+   */
   public abstract void setup();
 
+  /**
+   * Code that is run when the player left clicks in the air. Usually used for selecting an option.
+   */
   public abstract void onLeftClick();
 
+  /**
+   * Code that is run when the player right clicks in the air. Usually used for scrolling through
+   * options.
+   */
   public abstract void onRightClick();
 
-  public abstract void onDrop();
+  /**
+   * Code that is run when the player drops the item. This is most likely never going to get ran
+   * since the map is in the offhand which can't drop items. Will most likely be removed later.
+   */
+  @Deprecated()
+  public void onDrop() {}
 
+  /** Runs the select code for the current option. */
   protected void selectCurrentOption() {
     if (currentStage != null) {
       currentStage.selectCurrentOption(this);
     }
   }
 
+  /**
+   * Adds a stage to the GUI. A stage is an immutable object containing options.
+   *
+   * @param index the index at which to input the stage
+   * @param stage the stage object
+   */
   protected void addStage(
       @Range(from = 0, to = Integer.MAX_VALUE) final int index, @NotNull final Stage stage) {
     if (!isOpened) {
@@ -80,6 +104,10 @@ public abstract class MiniMapGUI {
     }
   }
 
+  /**
+   * Skips to the next stage. If there isn't one present and wraparoundStages is enabled, it will go
+   * back to the beginning.
+   */
   protected void nextStage() {
     if (stages.isEmpty()) {
       throw new IllegalStateException("Stages cannot be empty!");
@@ -97,6 +125,10 @@ public abstract class MiniMapGUI {
     currentStage = stages.get(currentStageIndex);
   }
 
+  /**
+   * Skips back to the previous stage. If there isn't one present and wraparoundStages is enabled,
+   * it will go back to the front.
+   */
   protected void previousStage() {
     if (stages.isEmpty()) {
       throw new IllegalStateException("Stages cannot be empty!");
@@ -114,6 +146,10 @@ public abstract class MiniMapGUI {
     currentStage = stages.get(currentStageIndex);
   }
 
+  /**
+   * Opens the actual minimap in the player's offhand. Any item in the offhand will be given back
+   * once the GUI is closed.
+   */
   public void open() {
     previousOffhandItem = player.getInventory().getItemInOffHand().clone();
 
@@ -128,6 +164,10 @@ public abstract class MiniMapGUI {
     isOpened = true;
   }
 
+  /**
+   * (Re)Renders the map in the offhand. Run this when you change stages or options to show the
+   * visual changes.
+   */
   public void render() {
     activeMapItem = buildMap();
     player.getInventory().setItemInOffHand(activeMapItem);
@@ -167,10 +207,16 @@ public abstract class MiniMapGUI {
     return item;
   }
 
+  /** Closes the GUI one tick after this is run. */
   public void close() {
     close(false);
   }
 
+  /**
+   * Closes the GUI, unregisters the listeners, and resets the variables.
+   *
+   * @param now true if GUI should close now, false if it should close 1 tick later
+   */
   public void close(boolean now) {
     Runnable run =
         () -> {
