@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'me.byteful.lib.mmgui'
-version = '0.2.0-SNAPSHOT'
+version = '0.2.0-BETA'
 
 repositories {
     mavenCentral()
@@ -38,5 +38,17 @@ java {
 tasks.withType(JavaCompile).configureEach {
     if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
         options.release = targetJavaVersion
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = 'me.byteful.lib.mmgui'
+            artifactId = 'MiniMapGUI'
+            version = '0.2.0-BETA'
+
+            from components.java
+        }
     }
 }
