@@ -64,7 +64,7 @@ public class PlayerListener implements Listener {
   public void onPlayerSwapItemEvent(PlayerSwapHandItemsEvent event) {
     final Player p = event.getPlayer();
 
-    if(!gui.isOpened() || !p.getUniqueId().equals(gui.getPlayer().getUniqueId())) {
+    if (!gui.isOpened() || !p.getUniqueId().equals(gui.getPlayer().getUniqueId())) {
       return;
     }
 
