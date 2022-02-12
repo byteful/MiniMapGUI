@@ -21,13 +21,13 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 public class ImageOption implements Option {
-  @NotNull private final World world;
+  @NotNull private final MapView view;
   @NotNull private final BufferedImage image;
   @NotNull private final Consumer<MiniMapGUI> onSelect;
 
   public ImageOption(
       @NotNull World world, @NotNull URL imageUrl, @NotNull Consumer<MiniMapGUI> onSelect) {
-    this.world = world;
+    this.view = Bukkit.createMap(world);
     this.onSelect = onSelect;
 
     try {
@@ -39,7 +39,7 @@ public class ImageOption implements Option {
 
   public ImageOption(
       @NotNull World world, @NotNull File imageFile, @NotNull Consumer<MiniMapGUI> onSelect) {
-    this.world = world;
+    this.view = Bukkit.createMap(world);
     this.onSelect = onSelect;
 
     try {
@@ -53,7 +53,7 @@ public class ImageOption implements Option {
       @NotNull World world,
       @NotNull InputStream imageStream,
       @NotNull Consumer<MiniMapGUI> onSelect) {
-    this.world = world;
+    this.view = Bukkit.createMap(world);
     this.onSelect = onSelect;
 
     try {
@@ -65,18 +65,61 @@ public class ImageOption implements Option {
 
   public ImageOption(
       @NotNull World world, @NotNull BufferedImage image, @NotNull Consumer<MiniMapGUI> onSelect) {
-    this.world = world;
+    this.view = Bukkit.createMap(world);
+    this.image = image;
+    this.onSelect = onSelect;
+  }
+
+  public ImageOption(
+      @NotNull MapView view, @NotNull URL imageUrl, @NotNull Consumer<MiniMapGUI> onSelect) {
+    this.view = view;
+    this.onSelect = onSelect;
+
+    try {
+      this.image = ImageIO.read(imageUrl);
+    } catch (IOException e) {
+      throw new RuntimeException("Failed to load image from URL: " + imageUrl, e);
+    }
+  }
+
+  public ImageOption(
+      @NotNull MapView view, @NotNull File imageFile, @NotNull Consumer<MiniMapGUI> onSelect) {
+    this.view = view;
+    this.onSelect = onSelect;
+
+    try {
+      this.image = ImageIO.read(imageFile);
+    } catch (IOException e) {
+      throw new RuntimeException("Failed to load image from file: " + imageFile, e);
+    }
+  }
+
+  public ImageOption(
+      @NotNull MapView view,
+      @NotNull InputStream imageStream,
+      @NotNull Consumer<MiniMapGUI> onSelect) {
+    this.view = view;
+    this.onSelect = onSelect;
+
+    try {
+      this.image = ImageIO.read(imageStream);
+    } catch (IOException e) {
+      throw new RuntimeException("Failed to load image from stream: " + imageStream, e);
+    }
+  }
+
+  public ImageOption(
+      @NotNull MapView view, @NotNull BufferedImage image, @NotNull Consumer<MiniMapGUI> onSelect) {
+    this.view = view;
     this.image = image;
     this.onSelect = onSelect;
   }
 
   @Override
   public @NotNull MapView onRender() {
-    final MapView view = Bukkit.createMap(world);
     view.setTrackingPosition(false);
     view.getRenderers().forEach(view::removeRenderer);
-    final ImageRenderer renderer = new ImageRenderer(image);
-    view.addRenderer(renderer);
+    view.addRenderer(new ImageRenderer(image));
     view.setScale(MapView.Scale.NORMAL);
 
     return view;
@@ -92,22 +135,21 @@ public class ImageOption implements Option {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     ImageOption that = (ImageOption) o;
-    return world.equals(that.world) && image.equals(that.image) && onSelect.equals(that.onSelect);
+    return view.equals(that.view) && image.equals(that.image) && onSelect.equals(that.onSelect);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(world, image, onSelect);
+    return Objects.hash(view, image, onSelect);
   }
 
   @Override
   public String toString() {
-    return "ImageOption{" + "world=" + world + ", image=" + image + ", onSelect=" + onSelect + '}';
+    return "ImageOption{" + "view=" + view + ", image=" + image + ", onSelect=" + onSelect + '}';
   }
 
   private static final class ImageRenderer extends MapRenderer {
     @NotNull private final BufferedImage image;
-    // private boolean rendered = false;
 
     public ImageRenderer(@NotNull BufferedImage image) {
       super(true);
@@ -116,12 +158,7 @@ public class ImageOption implements Option {
 
     @Override
     public void render(@NotNull MapView map, @NotNull MapCanvas canvas, @NotNull Player player) {
-      //      if(rendered) {
-      //        return;
-      //      }
-
       canvas.drawImage(0, 0, image);
-      // rendered = true;
     }
 
     @Override
