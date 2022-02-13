@@ -40,3 +40,15 @@ tasks.withType(JavaCompile).configureEach {
         options.release = targetJavaVersion
     }
 }
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = 'me.byteful.lib.mmgui'
+            artifactId = 'MiniMapGUI'
+            version = '0.2.0-BETA'
+
+            from components.java
+        }
+    }
+}
