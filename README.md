@@ -1,4 +1,5 @@
 [![JitPack](https://jitpack.io/v/byteful/MiniMapGUI.svg)](https://jitpack.io/#byteful/MiniMapGUI)
+[![Discord](https://img.shields.io/discord/911029017472270357?color=7289da&logo=discord)](https://discord.gg/G8BDgqsuyw)
 
 # MiniMapGUI
 
