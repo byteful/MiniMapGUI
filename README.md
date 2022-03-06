@@ -5,6 +5,9 @@
 
 An easy-to-use Spigot library that implements a GUI interface within offhand maps.
 
+# Video
+[![YouTube](https://i.imgur.com/9rBZwPK.png)](https://youtu.be/aFtybHOzJcI)
+
 # Maven/Gradle Dependencies
 
 Replace `Tag` with the latest version. (Latest version is in the `Releases` tab.)
