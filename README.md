@@ -34,9 +34,9 @@ dependencies {
 </repository>
 
 <dependency>
-<groupId>com.github.byteful</groupId>
-<artifactId>MiniMapGUI</artifactId>
-<version>Tag</version>
+  <groupId>com.github.byteful</groupId>
+  <artifactId>MiniMapGUI</artifactId>
+  <version>Tag</version>
 </dependency>
 ```
 
