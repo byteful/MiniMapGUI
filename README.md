@@ -1,8 +1,12 @@
 [![JitPack](https://jitpack.io/v/byteful/MiniMapGUI.svg)](https://jitpack.io/#byteful/MiniMapGUI)
+[![Discord](https://img.shields.io/discord/911029017472270357?color=7289da&logo=discord)](https://discord.gg/G8BDgqsuyw)
 
 # MiniMapGUI
 
 An easy-to-use Spigot library that implements a GUI interface within offhand maps.
+
+# Video
+[![YouTube](https://i.imgur.com/9rBZwPK.png)](https://youtu.be/aFtybHOzJcI)
 
 # Maven/Gradle Dependencies
 
@@ -30,9 +34,9 @@ dependencies {
 </repository>
 
 <dependency>
-<groupId>com.github.byteful</groupId>
-<artifactId>MiniMapGUI</artifactId>
-<version>Tag</version>
+  <groupId>com.github.byteful</groupId>
+  <artifactId>MiniMapGUI</artifactId>
+  <version>Tag</version>
 </dependency>
 ```
 
