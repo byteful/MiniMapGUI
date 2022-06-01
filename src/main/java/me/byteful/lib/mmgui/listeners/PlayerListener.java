@@ -8,9 +8,11 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.*;
+import org.bukkit.event.player.PlayerChangedWorldEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public class PlayerListener implements Listener {
@@ -37,19 +39,20 @@ public class PlayerListener implements Listener {
     final Action action = event.getAction();
     boolean b = false;
 
-    if (!gui.isOpened() || !p.getUniqueId().equals(gui.getPlayer().getUniqueId())) {
+    if (!gui.isOpened()
+        || !p.getUniqueId().equals(gui.getPlayer().getUniqueId())
+        || !event.hasItem()
+        || event.getHand() != EquipmentSlot.OFF_HAND) {
       return;
     }
 
-    if (action == Action.RIGHT_CLICK_AIR
-        && event.hasItem()
-        && event.getHand() == EquipmentSlot.OFF_HAND) {
-      gui.onRightClick();
+    if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
+      gui.onRightClick(p.isSneaking(), action == Action.RIGHT_CLICK_BLOCK);
       b = true;
     }
 
-    if (action == Action.LEFT_CLICK_AIR) {
-      gui.onLeftClick();
+    if (action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK) {
+      gui.onLeftClick(p.isSneaking(), action == Action.LEFT_CLICK_BLOCK);
       b = true;
     }
 
@@ -69,21 +72,6 @@ public class PlayerListener implements Listener {
     }
 
     event.setCancelled(true);
-  }
-
-  @EventHandler
-  public void onPlayerItemDrop(PlayerDropItemEvent event) {
-    final Player p = event.getPlayer();
-    final ItemStack item = event.getItemDrop().getItemStack();
-
-    if (!gui.isOpened()
-        || !p.getUniqueId().equals(gui.getPlayer().getUniqueId())
-        || !gui.isActiveMapItem(item)) {
-      return;
-    }
-
-    event.setCancelled(true);
-    gui.onDrop();
   }
 
   @EventHandler

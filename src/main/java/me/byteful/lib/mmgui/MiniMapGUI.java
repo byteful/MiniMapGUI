@@ -69,20 +69,13 @@ public abstract class MiniMapGUI {
   /**
    * Code that is run when the player left clicks in the air. Usually used for selecting an option.
    */
-  public abstract void onLeftClick();
+  public abstract void onLeftClick(boolean isSneaking, boolean isClickingBlock);
 
   /**
    * Code that is run when the player right clicks in the air. Usually used for scrolling through
    * options.
    */
-  public abstract void onRightClick();
-
-  /**
-   * Code that is run when the player drops the item. This is most likely never going to get ran
-   * since the map is in the offhand which can't drop items. Will most likely be removed later.
-   */
-  @Deprecated()
-  public void onDrop() {}
+  public abstract void onRightClick(boolean isSneaking, boolean isClickingBlock);
 
   /** Runs the select code for the current option. */
   protected void selectCurrentOption() {

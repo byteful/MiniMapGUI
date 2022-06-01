@@ -49,7 +49,7 @@ public class WarpGUI extends MiniMapGUI {
   }
 
   @Override
-  public void onLeftClick() {
+  public void onLeftClick(boolean isSneaking, boolean isClickingBlock) {
     if (getCurrentStage() != null) {
       getCurrentStage().nextOption();
       render();
@@ -57,17 +57,7 @@ public class WarpGUI extends MiniMapGUI {
   }
 
   @Override
-  public void onRightClick() {
+  public void onRightClick(boolean isSneaking, boolean isClickingBlock) {
     selectCurrentOption();
   }
-
-  //  @Override
-  //  public void onDrop() {
-  //    if(getCurrentStageIndex() <= 0) {
-  //      close();
-  //    } else {
-  //      previousStage();
-  //      render();
-  //    }
-  //  }
 }

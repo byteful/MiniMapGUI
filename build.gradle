@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'me.byteful.lib.mmgui'
-version = '0.2.0-BETA'
+version = '1.0.0'
 
 repositories {
     mavenCentral()
@@ -22,7 +22,7 @@ repositories {
 dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.14.4-R0.1-SNAPSHOT'
     testCompileOnly 'org.spigotmc:spigot-api:1.14.4-R0.1-SNAPSHOT'
-    compileOnly 'org.jetbrains:annotations:22.0.0'
+    compileOnly 'org.jetbrains:annotations:23.0.0'
 }
 
 def targetJavaVersion = 8
@@ -46,7 +46,7 @@ publishing {
         mavenJava(MavenPublication) {
             groupId = 'me.byteful.lib.mmgui'
             artifactId = 'MiniMapGUI'
-            version = '0.2.0-BETA'
+            version = '1.0.0'
 
             from components.java
         }
