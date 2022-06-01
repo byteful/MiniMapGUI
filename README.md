@@ -42,16 +42,6 @@ dependencies {
 
 # Example Usage
 ```java
-import me.byteful.lib.mmgui.MiniMapGUI;
-import me.byteful.lib.mmgui.api.option.impl.ImageOption;
-import me.byteful.lib.mmgui.api.stage.impl.SimpleStage;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-
 public class WarpGUI extends MiniMapGUI {
   private final JavaPlugin plugin;
 
@@ -93,7 +83,7 @@ public class WarpGUI extends MiniMapGUI {
   }
 
   @Override
-  public void onLeftClick() {
+  public void onLeftClick(boolean isSneaking, boolean isClickingBlock) {
     if (getCurrentStage() != null) {
       getCurrentStage().nextOption();
       render();
@@ -101,18 +91,8 @@ public class WarpGUI extends MiniMapGUI {
   }
 
   @Override
-  public void onRightClick() {
+  public void onRightClick(boolean isSneaking, boolean isClickingBlock) {
     selectCurrentOption();
   }
-
-  //  @Override
-  //  public void onDrop() {
-  //    if(getCurrentStageIndex() <= 0) {
-  //      close();
-  //    } else {
-  //      previousStage();
-  //      render();
-  //    }
-  //  }
 }
 ```
